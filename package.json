@@ -1,0 +1,17 @@
+{
+  "name": "my-contacts",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Cristhian Santos",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "npx nodemon src/main.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
