@@ -13,7 +13,6 @@ export default defineConfig([
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-alert": "warn",
-      "no-console": "warn",
       "no-unused-vars": ["error", { args: "none" }],
       "no-redeclare": "error",
       "no-undef": "error",
