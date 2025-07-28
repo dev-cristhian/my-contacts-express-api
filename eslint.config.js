@@ -4,6 +4,7 @@ import globals from "globals";
 
 export default defineConfig([
   {
+    ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**", "**/build/**", "**/**.spec.js"],
     files: ["**/*.{js,mjs,cjs}"],
     plugins: { js },
     extends: ["js/recommended"],
