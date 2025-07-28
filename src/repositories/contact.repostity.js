@@ -24,11 +24,49 @@ class ContactRepository {
     });
   }
 
-  findAsync(id) {
+  findAsync(key, value) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const contact = MOCK_CONTACTS.find((contact) => contact.id === id);
+        const contact = MOCK_CONTACTS.find((contact) => contact[key] === value);
         resolve(contact);
+      }, 1000);
+    });
+  }
+
+  createAsync(contact) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const newContact = { ...contact, id: crypto.randomUUID() };
+        MOCK_CONTACTS.push(newContact);
+        resolve(newContact);
+      }, 1000);
+    });
+  }
+
+  updateAsync(id, updatedContact) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const index = MOCK_CONTACTS.findIndex((contact) => contact.id === id);
+        if (index !== -1) {
+          MOCK_CONTACTS[index] = { ...MOCK_CONTACTS[index], ...updatedContact };
+          resolve(MOCK_CONTACTS[index]);
+        } else {
+          resolve(null);
+        }
+      }, 1000);
+    });
+  }
+
+  deleteAsync(id) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const index = MOCK_CONTACTS.findIndex((contact) => contact.id === id);
+        if (index !== -1) {
+          const deletedContact = MOCK_CONTACTS.splice(index, 1);
+          resolve(deletedContact[0]);
+        } else {
+          resolve(null);
+        }
       }, 1000);
     });
   }

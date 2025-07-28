@@ -8,10 +8,16 @@ class ContactController {
     await ContactService.findAllAsync(request, response);
   }
 
-  createAsync(request, response) {}
+  async createAsync(request, response) {
+    await ContactService.createAsync(request, response);
+  }
 
-  updateAsync(request, response) {}
+  async updateAsync(request, response) {
+    await ContactService.updateAsync(request, response);
+  }
 
-  deleteAsync(request, response) {}
+  async deleteAsync(request, response) {
+    await ContactService.deleteAsync(request, response);
+  }
 }
 export const contactController = new ContactController();
