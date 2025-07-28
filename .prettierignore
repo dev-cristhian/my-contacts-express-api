@@ -1,0 +1,55 @@
+# Ignore dependencies
+node_modules
+
+# Ignore build/output folders
+dist
+build
+out
+
+# Ignore local temp and cache folders
+tmp
+.cache
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore test coverage output
+coverage
+
+# Ignore log files
+*.log
+
+# Ignore minified or bundled files
+*.min.js
+*.bundle.js
+
+# Ignore image and media files
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.gif
+*.ico
+*.webp
+
+# Ignore Prettier config files
+.prettierignore
+.prettierrc
+.prettierrc.js
+.prettierrc.json
+
+# Ignore HTML and CSS (if generated)
+*.html
+*.css
+
+# Ignore Markdown files (like README)
+*.md
+
+# Ignore version control folder
+.git
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
