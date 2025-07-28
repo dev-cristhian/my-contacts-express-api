@@ -9,7 +9,8 @@
     "start": "npx nodemon src/main.js",
     "format": "prettier --write .",
     "lint": "eslint . ",
-    "lint:fix": "eslint . --fix "
+    "lint:fix": "eslint . --fix ",
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
