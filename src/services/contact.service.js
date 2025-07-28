@@ -5,18 +5,18 @@ class ContactService {
     try {
       const { id } = request.params;
       if (!id) {
-        response.status(400).json({ message: "Contact ID is required" });
+        return response.status(400).json({ message: "Contact ID is required" });
       }
 
       const contact = await ContactRepository.findAsync(id);
 
       if (!contact) {
-        response.status(404).json({ message: "No contacts found" });
+        return response.status(404).json({ message: "No contacts found" });
       }
 
-      response.status(200).json(contact);
+      return response.status(200).json(contact);
     } catch (error) {
-      response.status(500).json({ message: "Internal server error", error: error.message });
+      return response.status(500).json({ message: "Internal server error", error: error.message });
     }
   }
 
@@ -24,12 +24,12 @@ class ContactService {
     try {
       const contacts = await ContactRepository.findAllAsync();
       if (!contacts || contacts.length === 0) {
-        response.status(404).json({ message: "No contacts found" });
+        return response.status(404).json({ message: "No contacts found" });
       }
 
-      response.status(200).json(contacts);
+      return response.status(200).json(contacts);
     } catch (error) {
-      response.status(500).json({ message: "Internal server error", error: error.message });
+      return response.status(500).json({ message: "Internal server error", error: error.message });
     }
   }
 
