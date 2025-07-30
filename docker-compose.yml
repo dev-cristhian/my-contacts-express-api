@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: dG9kby1hcGk=
+      POSTGRES_DB: contacts
+    ports:
+      - "5432:5432"

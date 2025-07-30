@@ -1,74 +1,70 @@
-const MOCK_CONTACTS = [
-  {
-    id: crypto.randomUUID(),
-    name: "John Doe",
-    email: "john@example.com",
-    phone: "123-456-7890",
-    categoryId: crypto.randomUUID(),
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "Jane Smith",
-    email: "jane@example.com",
-    phone: "987-654-3210",
-    categoryId: crypto.randomUUID(),
-  },
-];
+import { PG } from "../database/index.js";
 
 class ContactRepository {
-  findAllAsync() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(MOCK_CONTACTS);
-      }, 1000);
-    });
+  async findAllAsync() {
+    try {
+      const rows = await PG.query(`SELECT * FROM contacts;`, []);
+      return rows;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  findAsync(key, value) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const contact = MOCK_CONTACTS.find((contact) => contact[key] === value);
-        resolve(contact);
-      }, 1000);
-    });
+  async findAsync(key, value) {
+    try {
+      const [row] = await PG.query(`SELECT * FROM contacts WHERE ${key} = $1;`, [value]);
+      return row;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  createAsync(contact) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const newContact = { ...contact, id: crypto.randomUUID() };
-        MOCK_CONTACTS.push(newContact);
-        resolve(newContact);
-      }, 1000);
-    });
+  async createAsync(contact) {
+    try {
+      const textQuery = `
+        INSERT INTO contacts (name, email, phone, category_id)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+      `;
+      const params = [contact.name, contact.email, contact.phone, contact.categoryId];
+
+      const [row] = await PG.query(textQuery, params);
+
+      return row;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  updateAsync(id, updatedContact) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const index = MOCK_CONTACTS.findIndex((contact) => contact.id === id);
-        if (index !== -1) {
-          MOCK_CONTACTS[index] = { ...MOCK_CONTACTS[index], ...updatedContact };
-          resolve(MOCK_CONTACTS[index]);
-        } else {
-          resolve(null);
-        }
-      }, 1000);
-    });
+  async updateAsync(id, updatedContact) {
+    try {
+      const { name, email, phone, categoryId } = updatedContact;
+
+      const textQuery = `
+        UPDATE contacts
+        SET name = $2, email = $3, phone = $4, category_id = $5
+        WHERE id = $1
+        RETURNING *;
+      `;
+
+      const [row] = await PG.query(textQuery, [id, name, email, phone, categoryId]);
+      return row;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  deleteAsync(id) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const index = MOCK_CONTACTS.findIndex((contact) => contact.id === id);
-        if (index !== -1) {
-          const deletedContact = MOCK_CONTACTS.splice(index, 1);
-          resolve(deletedContact[0]);
-        } else {
-          resolve(null);
-        }
-      }, 1000);
-    });
+  async deleteAsync(id) {
+    const textQuery = `
+      DELETE FROM contacts
+      WHERE id = $1
+      RETURNING *;
+    `;
+    try {
+      return await PG.query(textQuery, [id]);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 }
 
