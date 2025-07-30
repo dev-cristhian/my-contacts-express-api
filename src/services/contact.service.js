@@ -1,4 +1,4 @@
-import { contactRepository as ContactRepository } from "../repositories/contact.repostity.js";
+import { contactRepository as ContactRepository } from "../repositories/contact.repository.js";
 
 class ContactService {
   #throwInternalError(response, error) {
