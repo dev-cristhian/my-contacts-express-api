@@ -3,7 +3,14 @@ import { PG } from "../database/index.js";
 class ContactRepository {
   async findAllAsync() {
     try {
-      const rows = await PG.query(`SELECT * FROM contacts;`, []);
+      const textQuery = `
+        SELECT c.id, c.name, c.email, c.phone, cat.name AS category_name
+        FROM contacts c
+        LEFT JOIN categories cat ON c.category_id = cat.id
+        ORDER BY c.name ASC;
+      `;
+
+      const rows = await PG.query(textQuery, []);
       return rows;
     } catch (error) {
       return Promise.reject(error);
@@ -12,7 +19,15 @@ class ContactRepository {
 
   async findAsync(key, value) {
     try {
-      const [row] = await PG.query(`SELECT * FROM contacts WHERE ${key} = $1;`, [value]);
+      const textQuery = `
+        SELECT c.id, c.name, c.email, c.phone, cat.name AS category_name
+        FROM contacts c
+        LEFT JOIN categories cat ON c.category_id = cat.id
+        WHERE c.${key} = $1
+        ORDER BY c.name ASC;
+      `;
+
+      const [row] = await PG.query(textQuery, [value]);
       return row;
     } catch (error) {
       return Promise.reject(error);
