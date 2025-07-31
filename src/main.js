@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import { ErrorHandler } from "./middlewares/error-handler.js";
 import { router } from "./route.js";
 
 const app = express();
@@ -15,7 +16,8 @@ app.use((_, response, next) => {
 });
 
 app.use(router);
-
 app.use((_, response) => response.status(404).send({ error: "Not Found" }));
+
+app.use(ErrorHandler.handle); // Global error handler
 
 app.listen(port, () => console.log(`🚀 server is running on http://localhost:${port}`));
